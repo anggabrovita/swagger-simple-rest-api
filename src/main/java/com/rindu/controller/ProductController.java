@@ -4,6 +4,7 @@ import com.rindu.data.Product;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -11,11 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(value = "ProductController" , tags = {"Product Controller"})
-@SwaggerDefinition(tags = {
-        @Tag(name = "Product Controller", description = "Write description here")
-})
-@RestController("/api")
+@RestController
+@RequestMapping("/v2/api")
+@Api(value = "Product API" , tags = {"Product"})
 public class ProductController {
 
     List<Product> products = Arrays.asList(
@@ -25,21 +24,19 @@ public class ProductController {
             new Product("5","Sandisk Pen Drive", "Sandisk Pen Drive", 12, 200)
     );
 
-    @GetMapping("/get-product/{code}")
-    public Product getProduct(@PathVariable("code") String code){
-        return products.stream()
-                .filter(p->p.getCode().equalsIgnoreCase(code))
-                .collect(Collectors.toList()).get(0);
-    }
-
-    @ApiOperation(value = "List of all products", response = ArrayList.class, tags = "getProducts")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code =404, message = "404 error")
-    })
     @GetMapping("/products")
+    @ApiOperation(value = "List of all products", notes = "List of all products", response = ArrayList.class)
     public List<Product> getProducts(){
         return products;
+    }
+
+    @GetMapping("/get-product/{code}")
+    @ApiOperation(value = "Get product by code", notes = "Get product by code", response = ArrayList.class)
+    public Product getProduct(@PathVariable("code") String code){
+        Product product = products.stream()
+                .filter(p -> p.getCode().equalsIgnoreCase(code))
+                .collect(Collectors.toList()).get(0);
+        return product;
     }
 
 }

@@ -28,10 +28,11 @@ public class SwaggerConfig {
     private ApiInfo getApiInfo(){
         return new ApiInfoBuilder()
                 .title("Swagger2 Api Documentation")//
-                .description("Spring e-commerce project with mongoDB")
+                .description("Spring e-commerce project")
                 .version("1.0.0")//
-                .license("MIT License").licenseUrl("http://opensource.org/licenses/MIT")//
-                .contact(new Contact(null, null, "rindu@gmail.com"))//
+                .license("MIT License").licenseUrl("http://opensource.org/licenses/MIT")
+                .contact(new Contact(null, null, "rindu@gmail.com"))
+                .version("0.0.1")
                 .build();
     }
 }
